@@ -9,6 +9,8 @@ import org.testwork.assignment.output.XMLFormatter;
 import java.io.InputStream;
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+
 public class ParsingTest {
     @Test
     public void testParsing() throws Exception {
@@ -17,6 +19,9 @@ public class ParsingTest {
         List<Athlet> athlets = CSVParser.parseCSVFile(resultsInput, CSVParser.athletConverter);
         List<EventRule> eventRuleRules = CSVParser.parseCSVFile(eventsInput, CSVParser.eventConverter);
         Result result = new CompetitionCalculator().calculateCompetitionResult(athlets, eventRuleRules);
+
+        assertEquals(result.getResults().get(0).getScore(), 4200);
+        assertEquals(result.getResults().get(4).getScore(), 3099);
 
         new XMLFormatter().createXML(result.getResults(), System.out);
     }
